@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday Countdown</title>
+    <style>
+      .countdown-container {
+        text-align: center;
+        background-color: white;
+        padding: 40px 60px;
+        border-radius: 10px;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+        max-width: 450px;
+        opacity: 0;
+        animation: fadeIn 1s forwards;
+      }
+
+      .countdown-container h1 {
+        font-size: 2.5rem;
+        color: #e91e63;
+        margin-bottom: 20px;
+      }
+
+      .timer {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 20px;
+        font-size: 3rem;
+        font-weight: bold;
+        color: #e91e63;
+      }
+
+      .timer div {
+        text-align: center;
+        background-color: #f8bbd0;
+        padding: 20px;
+        border-radius: 10px;
+        width: 80px;
+      }
+
+      .timer div span {
+        display: block;
+        font-size: 1rem;
+        color: #555;
+        margin-top: 5px;
+      }
+
+      .time-units {
+        font-size: 1rem;
+        color: #555;
+        font-weight: bold;
+      }
+
+      .time-units span {
+        color: #e91e63;
+        font-size: 1.2rem;
+      }
+
+      .time-units {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      #timer-text {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #d81b60;
+        margin-top: 20px;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(to bottom, #fff5f7, #ffe3ec);
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .countdown {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .countdown h1 {
+        font-size: 3rem;
+        color: #e91e63;
+      }
+
+      .countdown p {
+        font-size: 1.5rem;
+        color: #555;
+        margin-top: 20px;
+      }
+
+      #timer {
+        font-size: 2rem;
+        color: #d81b60;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
+      #container {
+        text-align: center;
+        display: none; /* Hide the birthday website until the countdown ends */
+        opacity: 0;
+        animation: fadeIn 2s ease-in-out forwards;
+      }
+
+      h1 {
+        font-size: 3rem;
+        color: #e91e63;
+        animation: slideIn 3s ease-in-out;
+      }
+
+      h2 {
+        font-size: 2rem;
+        color: #d81b60;
+        margin: 10px 0;
+        animation: fadeIn 3s 2s ease-in-out forwards;
+        opacity: 0;
+      }
+
+      p {
+        font-size: 1rem;
+        color: #555;
+        margin: 20px 0;
+        animation: fadeIn 3s 4s ease-in-out forwards;
+        opacity: 0;
+      }
+
+      .teasing-lines {
+        font-size: 1rem;
+        color: #d81b60;
+        font-style: italic;
+        margin-top: 20px;
+        opacity: 0;
+        animation: fadeIn 3s ease-in-out forwards;
+      }
+
+      .images-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin: 30px 0;
+        animation: fadeIn 2s 4s ease-in-out forwards;
+        opacity: 0;
+      }
+
+      .images-container img {
+        width: 200px;
+        height: 150px;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .final-message {
+        font-size: 1.5rem;
+        color: #ec407a;
+        margin-top: 20px;
+        animation: fadeIn 3s 10s ease-in-out forwards;
+        opacity: 0;
+      }
+
+      .confetti {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background-color: #f06292;
+        animation: fall 5s infinite;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateY(-100px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fall {
+        0% {
+          transform: translateY(-100px) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="countdown-container" id="countdown-container">
+      <h1>Countdown to the Big Moment! 🎉</h1>
+
+      <div class="timer">
+        <div id="days">
+          <span>00</span>
+          <span>Days</span>
+        </div>
+        <div id="hours">
+          <span>00</span>
+          <span>Hours</span>
+        </div>
+        <div id="minutes">
+          <span>00</span>
+          <span>Minutes</span>
+        </div>
+        <div id="seconds">
+          <span>00</span>
+          <span>Seconds</span>
+        </div>
+      </div>
+
+      <div class="time-units">
+        <span id="days-text">Days</span> | <span id="hours-text">Hours</span> |
+        <span id="minutes-text">Minutes</span> |
+        <span id="seconds-text">Seconds</span>
+      </div>
+
+      <div id="timer-text">--:--:--</div>
+    </div>
+
+    <div id="container">
+      <h1>Happy Birthday Ayzel! 🎉</h1>
+      <h2>You're One Year Older, But Not Wiser! 🎂</h2>
+      <p id="teasing-line" class="teasing-lines"></p>
+
+      <div class="images-container">
+        <img src="./imgs/Pic1.jpg" alt="Image 1" />
+        <img src="./imgs/Pic2.jpg" alt="Image 2" />
+        <img src="./imgs/Pic3.jpg" alt="Image 3" />
+      </div>
+
+      <p class="final-message">
+        You're awesome (but you already knew that). ❤️
+      </p>
+    </div>
+
+    <script>
+      const targetDate = new Date("2024-11-30T00:00:00+04:00").getTime();
+
+      const daysElement = document.getElementById("days");
+      const hoursElement = document.getElementById("hours");
+      const minutesElement = document.getElementById("minutes");
+      const secondsElement = document.getElementById("seconds");
+
+      const timerText = document.getElementById("timer-text");
+
+      function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance <= 0) {
+          clearInterval(countdownInterval);
+          timerText.textContent = "00:00:00";
+          document.getElementById("countdown-container").style.display = "none";
+          document.getElementById("container").style.display = "block";
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        daysElement.children[0].textContent = String(days).padStart(2, "0");
+        hoursElement.children[0].textContent = String(hours).padStart(2, "0");
+        minutesElement.children[0].textContent = String(minutes).padStart(
+          2,
+          "0"
+        );
+        secondsElement.children[0].textContent = String(seconds).padStart(
+          2,
+          "0"
+        );
+
+        timerText.textContent = `${String(hours).padStart(2, "0")}:${String(
+          minutes
+        ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+      }
+
+      let countdownInterval = setInterval(updateCountdown, 1000);
+      updateCountdown(); // Initial call
+
+      // Teasing Lines
+      const teasingLines = [
+        "So, another year older… did you finally figure out how to open pickle jars?",
+        "Birthday glow? Or is that just the lighting?",
+        "Don't worry, you're not getting old—you're just leveling up in life (very slowly).",
+        "They say wisdom comes with age… still waiting for yours!",
+      ];
+
+      let currentLine = 0;
+      const teasingElement = document.getElementById("teasing-line");
+
+      function showTeasingLines() {
+        if (currentLine < teasingLines.length) {
+          teasingElement.textContent = teasingLines[currentLine];
+          teasingElement.style.animation = "fadeIn 3s ease-in-out forwards";
+          currentLine++;
+          setTimeout(showTeasingLines, 3000); // Delay for next line
+        }
+      }
+
+      setTimeout(showTeasingLines, 2000); // Start teasing lines after 2s
+    </script>
+  </body>
+</html>
